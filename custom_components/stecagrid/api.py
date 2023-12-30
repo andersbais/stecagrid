@@ -42,6 +42,3 @@ class InverterAPI:
             measurements[type_] = {"value": value, "unit": unit}
 
         return measurements
-
-    async def close(self):
-        await self._session.close()

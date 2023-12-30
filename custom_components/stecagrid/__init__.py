@@ -1,11 +1,9 @@
 """The StecaGrid integration."""
 from __future__ import annotations
+
 import asyncio
 from datetime import timedelta
-
 import logging
-
-import aiohttp
 
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import Platform
@@ -24,7 +22,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Set up StecaGrid from a config entry."""
 
     host = entry.data["host"]
-    session = aiohttp.ClientSession()
+    session = hass.helpers.aiohttp_client.async_get_clientsession()
     api = InverterAPI(host, 80, session)  # Assuming the port is 80
 
     if not await api.validate_connection():
@@ -71,7 +69,6 @@ async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     )
 
     if unload_ok:
-        await hass.data[DOMAIN][entry.entry_id]["api"].close()
         hass.data[DOMAIN].pop(entry.entry_id)
 
     return unload_ok

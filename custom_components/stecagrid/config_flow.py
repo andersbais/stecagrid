@@ -4,7 +4,6 @@ from __future__ import annotations
 import logging
 from typing import Any
 
-import aiohttp
 import voluptuous as vol
 
 from homeassistant import config_entries
@@ -31,7 +30,7 @@ async def validate_input(hass: HomeAssistant, data: dict[str, Any]) -> dict[str,
     Data has the keys from STEP_USER_DATA_SCHEMA with values provided by the user.
     """
     host = data[CONF_HOST]
-    session = aiohttp.ClientSession()
+    session = hass.helpers.aiohttp_client.async_get_clientsession()
     api = InverterAPI(host, 80, session)
 
     device_name = await api.validate_connection()
