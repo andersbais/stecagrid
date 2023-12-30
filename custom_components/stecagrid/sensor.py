@@ -1,6 +1,5 @@
 from datetime import datetime, timedelta
 import logging
-from tkinter import SE
 
 from homeassistant.components.sensor import (
     SensorDeviceClass,
