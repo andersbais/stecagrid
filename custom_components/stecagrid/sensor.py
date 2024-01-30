@@ -1,10 +1,9 @@
-from datetime import datetime, timedelta
+from datetime import datetime
 import logging
 
 from homeassistant.components.sensor import (
     SensorDeviceClass,
     SensorEntity,
-    SensorEntityDescription,
     SensorStateClass,
 )
 from homeassistant.config_entries import ConfigEntry
@@ -19,7 +18,6 @@ from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.update_coordinator import (
     CoordinatorEntity,
-    DataUpdateCoordinator,
 )
 from homeassistant.helpers.restore_state import RestoreEntity
 
@@ -206,7 +204,7 @@ class StecaGridEnergySensor(StecaGridEntity, SensorEntity, RestoreEntity):
 
         now = datetime.now()
 
-        # Calculate the energy used since the last update
+        # Calculate the energy produced since the last update
         time_difference = (now - self._last_updated).total_seconds() / 3600  # in hours
         power = (self._last_value + current_value) / 2  # average power
         energy = power * time_difference  # in Wh
