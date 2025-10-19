@@ -38,7 +38,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         _LOGGER,
         name="sensor",
         update_method=api.get_data,
-        update_interval=timedelta(seconds=5),
+        update_interval=timedelta(seconds=30),
     )
 
     await coordinator.async_refresh()  # Fetch data from the inverter
