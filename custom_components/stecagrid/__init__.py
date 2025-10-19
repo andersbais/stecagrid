@@ -9,6 +9,8 @@ from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import Platform
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator
+from homeassistant.helpers.aiohttp_client import async_get_clientsession
+
 
 from .api import InverterAPI
 from .const import DOMAIN
@@ -22,7 +24,8 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Set up StecaGrid from a config entry."""
 
     host = entry.data["host"]
-    session = hass.helpers.aiohttp_client.async_get_clientsession()
+    # session = hass.helpers.aiohttp_client.async_get_clientsession()
+    session = async_get_clientsession(hass)
     api = InverterAPI(host, 80, session)  # Assuming the port is 80
 
     if not await api.validate_connection():
