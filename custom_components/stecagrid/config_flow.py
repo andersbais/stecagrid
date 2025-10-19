@@ -11,6 +11,7 @@ from homeassistant.const import CONF_HOST
 from homeassistant.core import HomeAssistant
 from homeassistant.data_entry_flow import FlowResult
 from homeassistant.exceptions import HomeAssistantError
+from homeassistant.helpers.aiohttp_client import async_get_clientsession
 
 from .api import InverterAPI
 from .const import DOMAIN
@@ -30,7 +31,8 @@ async def validate_input(hass: HomeAssistant, data: dict[str, Any]) -> dict[str,
     Data has the keys from STEP_USER_DATA_SCHEMA with values provided by the user.
     """
     host = data[CONF_HOST]
-    session = hass.helpers.aiohttp_client.async_get_clientsession()
+    # session = hass.helpers.aiohttp_client.async_get_clientsession()
+    session = async_get_clientsession(hass) #New way of calling helpers since 2024.11
     api = InverterAPI(host, 80, session)
 
     device_name = await api.validate_connection()
